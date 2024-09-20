@@ -8,9 +8,63 @@
   <body>
     <h1>Google Books API</h1>
 
+    <ul id="bookList"></ul>
+
     <script>
-      let key = "AIzaSyBsDkSXaMwqvslB2Ua1CCnRI9HwNIOl3l0";
-      let url = "https://www.googleapis.com/books/v1/volumes?q=alchemist";
+      let key = "<GOOGLE_API_KEY>";
+      let url = "https://www.googleapis.com/books/v1/volumes?q=alchemist&key=";
+
+      fetch(url + key)
+        .then(function (response) {
+          return response.json();
+        })
+        .then(function (data) {
+          console.log(data);
+
+          let bookList = document.getElementById("bookList");
+
+          data.items.forEach(function (book) {
+            console.log(book.volumeInfo.title);
+
+            let title = book.volumeInfo.title;
+            let id = book.id;
+            let author = book.volumeInfo.authors[0];
+            let link = book.volumeInfo.previewLink;
+
+            /*
+            let newBook =
+              "<li><h2>" +
+              title +
+              "</h2><p>Author: " +
+              author +
+              "<br>Id: " +
+              id +
+              "</p><a href='" +
+              link +
+              "'>" +
+              link +
+              "</a></li>";
+
+            bookList.innerHTML += newBook;
+            */
+
+            let li = document.createElement("li");
+
+            let h2 = document.createElement("h2");
+            let h2Text = document.createTextNode(title);
+            h2.appendChild(h2Text);
+            li.appendChild(h2);
+
+            bookList.appendChild(li);
+
+            // Can you display the book ID?
+            // Can you display the book author?
+            // Can you make a link to the book profile?
+          });
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
     </script>
   </body>
 </html>
